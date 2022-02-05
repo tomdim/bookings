@@ -22,3 +22,4 @@ go.work
 
 # GoLand
 .idea
+.DS_Store
