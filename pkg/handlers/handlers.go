@@ -1,10 +1,11 @@
 package handlers
 
 import (
+	"net/http"
+
 	"github.com/tomdim/bookings/pkg/config"
 	"github.com/tomdim/bookings/pkg/models"
 	"github.com/tomdim/bookings/pkg/render"
-	"net/http"
 )
 
 // Repo the repository used by the handlers

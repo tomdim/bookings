@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	"time"
+
 	"github.com/alexedwards/scs/v2"
 	"github.com/tomdim/bookings/pkg/config"
 	"github.com/tomdim/bookings/pkg/handlers"
 	"github.com/tomdim/bookings/pkg/render"
-	"log"
-	"net/http"
-	"time"
 )
 
 const portNumber = ":8889"
