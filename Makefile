@@ -12,7 +12,9 @@ help:
 	@echo "  logs                               to follow logs."
 	@echo "  run                                to build the go app locally."
 	@echo "  local-build                        to build the go project locally."
-	@echo "  test                               to run the tests locally."
+	@echo "  test                               to run the tests locally and print coverage."
+	@echo "  coverage                           to export coverage report in html format."
+
 
 up:
 	docker-compose up -d
@@ -40,6 +42,8 @@ local-build:
 	go build -o ./bin/main cmd/web/*.go
 
 test:
-	go test -v ./...
+	go test -v ./... -cover
 
+coverage:
+	go test ./... -coverprofile=coverage.out && go tool cover -html=coverage.out
 
