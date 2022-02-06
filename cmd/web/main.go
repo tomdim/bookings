@@ -42,7 +42,7 @@ func main() {
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 
-	fmt.Printf("Starting application on port %s", portNumber)
+	fmt.Printf("Starting application on port %s\n", portNumber)
 
 	srv := &http.Server{
 		Addr:    portNumber,

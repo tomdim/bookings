@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+
+  web:
+    container_name: bookings
+    build: .
+    ports:
+      - 8888:8889
+    restart: on-failure
