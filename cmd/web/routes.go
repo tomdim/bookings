@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/tomdim/bookings/internal/config"
+	"github.com/tomdim/bookings/internal/handlers"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/tomdim/bookings/pkg/config"
-	"github.com/tomdim/bookings/pkg/handlers"
 )
 
 func routes(app *config.AppConfig) http.Handler {
@@ -22,8 +22,10 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/make-reservation", http.HandlerFunc(handlers.Repo.Reservation))
 	mux.Get("/generals-quarters", http.HandlerFunc(handlers.Repo.Generals))
 	mux.Get("/majors-suite", http.HandlerFunc(handlers.Repo.Majors))
+
 	mux.Get("/search-availability", http.HandlerFunc(handlers.Repo.Availability))
 	mux.Post("/search-availability", http.HandlerFunc(handlers.Repo.PostAvailability))
+	mux.Post("/search-availability-json", http.HandlerFunc(handlers.Repo.AvailabilityJSON))
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

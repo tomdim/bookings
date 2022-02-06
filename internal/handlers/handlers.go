@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/tomdim/bookings/internal/config"
+	"github.com/tomdim/bookings/internal/models"
+	"github.com/tomdim/bookings/internal/render"
+	"log"
 	"net/http"
-
-	"github.com/tomdim/bookings/pkg/config"
-	"github.com/tomdim/bookings/pkg/models"
-	"github.com/tomdim/bookings/pkg/render"
 )
 
 // Repo the repository used by the handlers
@@ -77,6 +78,30 @@ func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
 // Availability renders the search availability page and displays form
 func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "search-availability.page.tmpl", &models.TemplateData{})
+}
+
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+// AvailabilityJSON handles request for availability and send json response
+func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+	//start := r.Form.Get("start")
+	//end := r.Form.Get("end")
+
+	resp := jsonResponse{
+		OK:      true,
+		Message: "Available!",
+	}
+
+	out, err := json.MarshalIndent(resp, "", "     ")
+	if err != nil {
+		log.Println(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }
 
 // PostAvailability renders the search availability page and displays form

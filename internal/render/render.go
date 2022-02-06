@@ -4,13 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/justinas/nosurf"
+	"github.com/tomdim/bookings/internal/config"
+	"github.com/tomdim/bookings/internal/models"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
-
-	"github.com/tomdim/bookings/pkg/config"
-	"github.com/tomdim/bookings/pkg/models"
 )
 
 var functions = template.FuncMap{}
