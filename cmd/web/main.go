@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"github.com/tomdim/bookings/internal/config"
 	"github.com/tomdim/bookings/internal/handlers"
+	"github.com/tomdim/bookings/internal/models"
 	"github.com/tomdim/bookings/internal/render"
 	"log"
 	"net/http"
@@ -19,6 +21,9 @@ var session *scs.SessionManager
 
 // main is the main entrypoint
 func main() {
+	// what am I going to put in the session
+	gob.Register(models.Reservation{})
+
 	// Change this to true when in production
 	app.InProduction = false
 
