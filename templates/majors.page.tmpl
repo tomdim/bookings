@@ -1,0 +1,68 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <img src="/static/images/majors-suite.png" class="img-fluid img-thumbnail mx-auto d-block room-image"
+                 alt="room image">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-4">Major's Suite</h1>
+            <p>Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <a href="#!" class="btn btn-success" id="check-availability-button">Check Availability</a>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "js"}}
+<script>
+    document.getElementById("check-availability-button").addEventListener("click", function () {
+
+        let html = `
+            <form id="check-availability-form" action="" method="post" noValidate class="needs-validation">
+                <div class="row">
+                    <div class="col">
+                        <div class="row g-3" id="reservation-dates-modal">
+                            <div class="col">
+                                <input disabled required type="text" name="start" id="start" class="form-control" placeholder="Arrival">
+                            </div>
+                            <div class="col">
+                                <input disabled required type="text" name="end" id="end" class="form-control" placeholder="Departure">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            `
+        attention.custom({msg: html, title: "Choose your dates"});
+        // notify("A message", "success");
+        // notify("A message", "success");
+        // notifyModal("title", "<em> hello, world</em>", "success", "ok")
+        // attention.toast({msg: "Hello world!", icon: "error"});
+        // attention.success({title: "Hello", msg: "Hello world!", footer: "hellooooo"});
+        // attention.toast({title: "oopsss"});
+
+    })
+</script>
+{{end}}
