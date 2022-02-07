@@ -35,11 +35,11 @@ full-restart: down-volumes build
 logs:
 	docker-compose logs -f -t
 
-run:
-	go run cmd/web/*.go
-
 local-build:
-	go build -o ./bin/main cmd/web/*.go
+	go build -o bookings cmd/web/*.go
+
+run: local-build
+	./bookings
 
 test:
 	go test -v ./... -cover
