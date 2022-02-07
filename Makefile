@@ -1,4 +1,3 @@
-# include variables from the .env file
 #!make
 
 help:
@@ -10,8 +9,8 @@ help:
 	@echo "  restart                            to restart docker-compose."
 	@echo "  full-restart                       to restart docker-compose cleaning up volumes and rebuilding images."
 	@echo "  logs                               to follow logs."
+	@echo "  go-build                           to compile packages and dependencies locally into an executable."
 	@echo "  run                                to build the go app locally."
-	@echo "  local-build                        to build the go project locally."
 	@echo "  test                               to run the tests locally and print coverage."
 	@echo "  coverage                           to export coverage report in html format."
 
@@ -35,11 +34,11 @@ full-restart: down-volumes build
 logs:
 	docker-compose logs -f -t
 
-local-build:
-	go build -o bookings cmd/web/*.go
+go-build:
+	go build -o ./bin/main cmd/web/*.go
 
-run: local-build
-	./bookings
+run: go-build
+	./bin/main
 
 test:
 	go test -v ./... -cover
