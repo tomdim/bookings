@@ -14,7 +14,7 @@ This is the repository for my bookings and reservations project.
   * Uses [notie](https://jaredreich.com/notie/)
   * Uses [sweetalert](https://sweetalert2.github.io/)
   * Uses [vanillajs-datepicker](https://mymth.github.io/vanillajs-datepicker)
-
+  * Uses [soda](https://gobuffalo.io/en/docs/db/getting-started/) for basic ORM functionality, run migrations, and build/execute queries.
 
 ## Getting Started
 

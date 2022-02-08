@@ -24,3 +24,6 @@ go.work
 # GoLand
 .idea
 .DS_Store
+
+# Soda fizz configuration
+database.yml
