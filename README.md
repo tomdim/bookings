@@ -15,6 +15,7 @@ This is the repository for my bookings and reservations project.
   * Uses [sweetalert](https://sweetalert2.github.io/)
   * Uses [vanillajs-datepicker](https://mymth.github.io/vanillajs-datepicker)
   * Uses [soda](https://gobuffalo.io/en/docs/db/getting-started/) for basic ORM functionality, run migrations, and build/execute queries.
+  * Uses [jackc/pgx/v4](https://github.com/jackc/pgx/v4) a pure Go driver and toolkit for PostgreSQL.
 
 ## Getting Started
 
