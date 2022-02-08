@@ -4,6 +4,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"github.com/tomdim/bookings/internal/config"
+	"github.com/tomdim/bookings/internal/driver"
 	"github.com/tomdim/bookings/internal/handlers"
 	"github.com/tomdim/bookings/internal/helpers"
 	"github.com/tomdim/bookings/internal/models"
@@ -25,10 +26,11 @@ var errorLog *log.Logger
 
 // main is the main entrypoint
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	fmt.Printf("Starting application on port %s\n", portNumber)
 
@@ -41,9 +43,13 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	// what am I going to put in the session
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
+	gob.Register(models.RoomRestriction{})
 
 	// Change this to true when in production
 	app.InProduction = false
@@ -62,19 +68,27 @@ func run() error {
 
 	app.Session = session
 
+	// connect to DB
+	log.Println("Connecting to DB...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=orfium password=1234")
+	if err != nil {
+		log.Fatal("Cannot connect to databse! Dying...")
+	}
+	log.Println("Connected to DB!")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }
