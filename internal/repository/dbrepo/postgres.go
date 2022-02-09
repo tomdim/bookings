@@ -65,8 +65,8 @@ func (m *postgresDBRepo) InsertRoomRestriction(res models.RoomRestriction) error
 	return nil
 }
 
-// SearchAvailabilityByDates returns if availability exists for a given room, otherwise false
-func (m *postgresDBRepo) SearchAvailabilityByDates(start, end time.Time, roomID int) (bool, error) {
+// SearchAvailabilityByDatesByRoomID returns if availability exists for a given room, otherwise false
+func (m *postgresDBRepo) SearchAvailabilityByDatesByRoomID(start, end time.Time, roomID int) (bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -90,4 +90,78 @@ func (m *postgresDBRepo) SearchAvailabilityByDates(start, end time.Time, roomID 
 	}
 
 	return numRows == 0, nil
+}
+
+// SearchAvailabilityForAllRooms returns the available rooms by dates
+func (m *postgresDBRepo) SearchAvailabilityForAllRooms(start, end time.Time) ([]models.Room, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var rooms []models.Room
+	query := `
+		SELECT 
+			r.id, r.room_name
+		FROM 
+			rooms r
+		WHERE
+		    r.id not in (
+		        SELECT 
+		            rr.room_id 
+		        FROM
+		        	room_restrictions rr
+		        WHERE 
+		        	$1 < end_date and $2 > start_date
+		    )
+	`
+	rows, err := m.DB.QueryContext(ctx, query,
+		start,
+		end,
+	)
+	if err != nil {
+		return rooms, err
+	}
+
+	for rows.Next() {
+		var room models.Room
+		err := rows.Scan(
+			&room.ID,
+			&room.RoomName,
+		)
+		if err != nil {
+			return rooms, err
+		}
+		rooms = append(rooms, room)
+	}
+
+	return rooms, nil
+}
+
+// GetRoomByID returns a room based on its ID
+func (m *postgresDBRepo) GetRoomByID(id int) (models.Room, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var room models.Room
+	query := `
+		SELECT 
+			id, room_name, created_at, updated_at
+		FROM 
+			rooms
+		WHERE
+		    id = $1;
+	`
+	row := m.DB.QueryRowContext(ctx, query,
+		id,
+	)
+	err := row.Scan(
+		&room.ID,
+		&room.RoomName,
+		&room.CreatedAt,
+		&room.UpdatedAt,
+	)
+	if err != nil {
+		return room, err
+	}
+
+	return room, nil
 }
