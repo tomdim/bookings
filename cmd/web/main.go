@@ -70,7 +70,7 @@ func run() (*driver.DB, error) {
 
 	// connect to DB
 	log.Println("Connecting to DB...")
-	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user= password=")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=orfium password=1234")
 	if err != nil {
 		log.Fatal("Cannot connect to databse! Dying...")
 	}
